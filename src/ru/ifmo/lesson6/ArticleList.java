@@ -68,6 +68,8 @@ public class ArticleList extends Activity {
             }
         });
 
+        title.setText(getIntent().getStringArrayExtra("feed")[FeedItem.NAME]);
+
         UpdateBroadcastReceiver updateBroadCastReceiver = new UpdateBroadcastReceiver();
         this.registerReceiver(updateBroadCastReceiver, new IntentFilter(UpdateBroadcastReceiver.UpdateAction));
 
@@ -76,7 +78,7 @@ public class ArticleList extends Activity {
     }
 
     void updateList(){
-        articles = articlesDb.getAllItems(getIntent().getStringExtra("feedId"));
+        articles = articlesDb.getAllItems(getIntent().getStringArrayExtra("feed")[FeedItem.ID]);
         articleNames.clear();
         for (int i = 0; i < articles.size(); i++){
             articleNames.add(articles.get(i).param[Article.TITLE]);
@@ -97,12 +99,12 @@ public class ArticleList extends Activity {
         public void onReceive(Context context, Intent intent) {
             ArrayList<String> a = intent.getExtras().getStringArrayList("updatedFeeds");
             for (int i = 0; i < a.size(); i++){
-                if (getIntent().getStringExtra("feedId").equals(a.get(i))){
+                if (getIntent().getStringArrayExtra("feed")[FeedItem.ID].equals(a.get(i))){
                     updateList();
                     break;
                 }
             }
-            Toast.makeText(ArticleList.this, "Feeds were updated", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(ArticleList.this, "Feeds were updated", Toast.LENGTH_SHORT).show();
         }
     }
 

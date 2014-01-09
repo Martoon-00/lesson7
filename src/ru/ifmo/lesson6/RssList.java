@@ -48,7 +48,7 @@ public class RssList extends Activity {
             @Override
             public void onItemClick(AdapterView<?> parent, View itemClicked, int position, long id) {
                 Intent intent = new Intent(RssList.this, ArticleList.class);
-                intent.putExtra("feedId", feeds.get(position).param[FeedItem.ID]);
+                intent.putExtra("feed", feeds.get(position).param);
                 startActivity(intent);
             }
         });
